@@ -11,6 +11,9 @@ public class Finca {
     private int propietarioId;
     private int capatazId;
     private int vendedorId;
+    private String codigo_propietario;
+    private String codigo_capataz;
+    private String codigo_vendedor;
     private String pais;
     private String departamento;
     private String ciudad;
@@ -22,18 +25,17 @@ public class Finca {
     public Finca() {}
     
     // CONSTRUCTOR PARA EXTREAR Y MANEJAR UNA FINCA
-    public Finca(int idFinca, String codigoFinca, String nombre, int numHectareas, float metrosCuadrados,
-            int propietarioId, int capatazId, int vendedorId, String pais, String departamento,
+    public Finca(String codigoFinca, String nombre, int numHectareas, float metrosCuadrados,
+            String codigo_propietario, String codigo_capataz, String codigo_vendedor, String pais, String departamento,
             String ciudad, boolean siProduceLeche, boolean siProduceCereales,
             boolean siProduceFrutas, boolean siProduceVerduras) {
-	   this.idFinca = idFinca;
 	   this.codigoFinca = codigoFinca;
 	   this.nombre = nombre;
 	   this.numHectareas = numHectareas;
 	   this.metrosCuadrados = metrosCuadrados;
-	   this.propietarioId = propietarioId;
-	   this.capatazId = capatazId;
-	   this.vendedorId = vendedorId;
+	   this.codigo_propietario = codigo_propietario;
+	   this.codigo_capataz = codigo_capataz;
+	   this.codigo_vendedor = codigo_vendedor;
 	   this.pais = pais;
 	   this.departamento = departamento;
 	   this.ciudad = ciudad;
@@ -43,10 +45,31 @@ public class Finca {
 	   this.siProduceVerduras = siProduceVerduras;
 	}
 
+    public Finca(String nombre, int numHectareas, float metrosCuadrados,
+            String codigo_propietario, String codigo_capataz, String codigo_vendedor, String pais, String departamento,
+            String ciudad, boolean siProduceLeche, boolean siProduceCereales,
+            boolean siProduceFrutas, boolean siProduceVerduras) {
+    	Random random = new Random();
+    	int number = 100000 + random.nextInt(900000);
+        this.codigoFinca = String.valueOf(number);
+	   this.nombre = nombre;
+	   this.numHectareas = numHectareas;
+	   this.metrosCuadrados = metrosCuadrados;
+	   this.codigo_propietario = codigo_propietario;
+	   this.codigo_capataz = codigo_capataz;
+	   this.codigo_vendedor = codigo_vendedor;
+	   this.pais = pais;
+	   this.departamento = departamento;
+	   this.ciudad = ciudad;
+	   this.siProduceLeche = siProduceLeche;
+	   this.siProduceCereales = siProduceCereales;
+	   this.siProduceFrutas = siProduceFrutas;
+	   this.siProduceVerduras = siProduceVerduras;
+	}
 
     // ANTES DE PONER EL ID TOCA HACER LA BUSQUEDA DE ID DE CADA UNO Y PODER ASI CREAR EL OBJETO
     // CONTRUCTOR PARA CREAR UNA NUEVA FINCA
-    public Finca(String codigoFinca, String nombre, int numHectareas, float metrosCuadrados,
+    public Finca(String nombre, int numHectareas, float metrosCuadrados,
                  int propietarioId, int capatazId, int vendedorId, String pais, String departamento,
                  String ciudad, boolean siProduceLeche, boolean siProduceCereales,
                  boolean siProduceFrutas, boolean siProduceVerduras) {
@@ -181,10 +204,33 @@ public class Finca {
         this.siProduceVerduras = siProduceVerduras;
     }
     
-    @Override
+    public String getCodigo_propietario() {
+		return codigo_propietario;
+	}
+
+	public void setCodigo_propietario(String codigo_propietario) {
+		this.codigo_propietario = codigo_propietario;
+	}
+
+	public String getCodigo_capataz() {
+		return codigo_capataz;
+	}
+
+	public void setCodigo_capataz(String codigo_capataz) {
+		this.codigo_capataz = codigo_capataz;
+	}
+
+	public String getCodigo_vendedor() {
+		return codigo_vendedor;
+	}
+
+	public void setCodigo_vendedor(String codigo_vendedor) {
+		this.codigo_vendedor = codigo_vendedor;
+	}
+
+	@Override
     public String toString() {
         return "Finca{" +
-                "idFinca=" + idFinca +
                 ", codigoFinca='" + codigoFinca + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", numHectareas=" + numHectareas +
@@ -201,6 +247,8 @@ public class Finca {
                 ", siProduceVerduras=" + siProduceVerduras +
                 '}';
     }
+	
+	
 
 }
 

@@ -18,7 +18,7 @@ public class Usuario {
 	    public Usuario() {}
 	    
 	    // CONSTRUCTOR PARA EXTREAR Y MANEJAR UN USUARIO
-	    public Usuario(int idUsuario, String codigoUsuario, String username, String password, String nombre, String email, String rol, int codRecuperacion, LocalDateTime timeLimit) {
+	    public Usuario(int idUsuario, String codigoUsuario, String username, String password, String nombre, String email, String rol) {
 		     this.idUsuario = idUsuario;
 		     this.codigoUsuario = codigoUsuario;
 		     this.username = username;
@@ -26,8 +26,6 @@ public class Usuario {
 		     this.nombre = nombre;
 		     this.email = email;
 		     this.rol = rol;
-		     this.codRecuperacion = codRecuperacion;
-		     this.timeLimit = timeLimit;
 		 }
 
 
@@ -124,13 +122,9 @@ public class Usuario {
 	                "idUsuario=" + idUsuario +
 	                ", codigoUsuario='" + codigoUsuario + '\'' +
 	                ", username='" + username + '\'' +
-	                ", password='" + password + '\'' +
 	                ", nombre='" + nombre + '\'' +
 	                ", email='" + email + '\'' +
-	                ", rol='" + rol + '\'' +
-	                ", codRecuperacion=" + codRecuperacion +
-	                ", timeLimit=" + timeLimit +
-	                '}';
+	                ", rol='" + rol + "}";
 	    }
 }
 
