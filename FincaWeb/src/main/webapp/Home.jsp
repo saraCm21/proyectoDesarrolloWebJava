@@ -290,25 +290,78 @@
 	    border-bottom: 1px solid #eee;
 	    padding-bottom: 4px;
 	  }
+	  #modalSearch-finca {
+	  display: none;
+	  position: fixed;
+	  top: 50%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	  background-color: #ffffff;
+	  padding: 25px 30px;
+	  border-radius: 10px;
+	  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+	  width: 400px;
+	  max-height: 90vh;
+	  overflow-y: auto;
+	  z-index: 1000;
+	  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	  color: #333;
+	}
+	
+	#modalSearch-finca h3 {
+	  margin-top: 0;
+	  font-size: 20px;
+	  color: #2c3e50;
+	  border-bottom: 1px solid #ddd;
+	  padding-bottom: 10px;
+	  margin-bottom: 20px;
+	}
+	
+	#modalSearch-finca .info-row {
+	  margin-bottom: 10px;
+	  font-size: 15px;
+	}
+	
+	#modalSearch-finca .info-row strong {
+	  display: inline-block;
+	  width: 150px;
+	  font-weight: 600;
+	  color: #555;
+	}
+	
+	#cerrarModalSearch-finca {
+	  background-color: #e74c3c;
+	  color: white;
+	  border: none;
+	  padding: 10px 18px;
+	  border-radius: 5px;
+	  cursor: pointer;
+	  font-weight: bold;
+	  transition: background-color 0.2s ease;
+	}
+	
+	#cerrarModalSearch-finca:hover {
+	  background-color: #c0392b;
+	}
   </style>
 </head>
 <body>
 <body>
+
   <div class="container">
     <aside class="sidebar">
       <h2>MENU</h2>
       <nav>
-        <a href="registerFinca.jsp">&#x2696; Crear Finca</a>
-        <a href="../../Views/principalFrames/reportFinca.jsp">📄 Reporte</a>
-        <a href="../../Controllers/logoutController.jsp">&#x1F6AA; Salir</a>
+        <a href="RegisterFinca.jsp">&#x2696; Crear Finca</a>
+        <a href="logout">&#x1F6AA; Salir</a>
       </nav>
     </aside>
 
     <main class="main">
       <div class="top-bar">
-        <form action="../../Controllers/searchFincaController.jsp" method="POST" class="search-form">
+        <form action="SearchFincaServlet" method="POST" class="search-form">
           <input type="text" placeholder="Buscar finca..." class="search-input" name="search_input"/>
-          <button type="submit" class="search-button">&#128269;</button>
+          <button type="submit" class="search-finca">&#128269;</button>
         </form>
       </div>
 
@@ -362,16 +415,19 @@
               <td><%= rs.getString("pais") %></td>
               <td><%= rs.getString("departamento") %></td>
               <td><%= rs.getString("ciudad") %></td>
+              
               <td>
                 <!-- Botón Editar -->
                 <button type="button" class="edit-btn"
                   data-codigo="<%= rs.getString("codigo_finca") %>"
                   data-nombre="<%= rs.getString("nombre") %>"
-                  data-hectareas="<%= rs.getString("numHectareas") %>"
-                  data-metros="<%= rs.getString("metrosCuadrados") %>"
-                  data-pais="<%= rs.getString("pais") %>"
-                  data-departamento="<%= rs.getString("departamento") %>"
-                  data-ciudad="<%= rs.getString("ciudad") %>">
+                  data-propietario="<%= rs.getString("codigo_propietario") %>"
+	              data-capataz="<%= rs.getString("codigo_capataz") %>"
+	              data-vendedor="<%= rs.getString("codigo_vendedor") %>"
+                  data-leche="<%= rs.getInt("siProduceLeche") %>"
+	              data-cereales="<%= rs.getInt("siProduceCereales") %>"
+	              data-frutas="<%= rs.getInt("siProduceFrutas") %>"
+	              data-verduras="<%= rs.getInt("siProduceVerduras") %>">
                   Editar
                 </button>
 
@@ -395,13 +451,14 @@
                 </button>
 
                 <!-- Botón Eliminar -->
-                <form action="../../Controllers/deleteFincaController.jsp" method="POST" style="display:inline;">
-                  <input type="hidden" name="codigo_finca" value="<%= rs.getString("codigo_finca") %>"/>
-                  <button type="submit" class="delete-btn" onclick="return confirm('¿Seguro que deseas eliminar esta finca?');">Eliminar</button>
-                </form>
+				<form action="DeleteFincaServlet" method="POST" style="display:inline;">
+				  <input type="hidden" name="codigo_finca" value="<%= rs.getString("codigo_finca") %>"/>
+				  <button type="submit" class="delete-btn" onclick="return confirm('¿Seguro que deseas eliminar esta finca?');">Eliminar</button>
+				</form>
               </td>
             </tr>
             <%
+            
                   }
               } catch(Exception e) {
                   out.println("<tr><td colspan='8'>Error: " + e.getMessage() + "</td></tr>");
@@ -417,43 +474,62 @@
     </main>
   </div>
   
- <!-- Modal Editar -->
-  <div id="fondoModal"></div>
-  <div id="modalEditar">
-    <h3>Editar Finca</h3>
-    <form id="formEditar" method="POST" action="updateFincaController.jsp">
-      <div class="form-group">
-        <label for="codigo_finca">Código</label>
-        <input type="text" id="codigo_finca" name="codigo_finca" readonly />
-      </div>
-      <div class="form-group">
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" required />
-      </div>
-      <div class="form-group">
-        <label for="numHectareas">Hectáreas</label>
-        <input type="number" id="numHectareas" name="numHectareas" required />
-      </div>
-      <div class="form-group">
-        <label for="metrosCuadrados">Metros Cuadrados</label>
-        <input type="number" id="metrosCuadrados" name="metrosCuadrados" required />
-      </div>
-      <div class="form-group">
-        <label for="pais">País</label>
-        <input type="text" id="pais" name="pais" required />
-      </div>
-      <div class="form-group">
-        <label for="departamento">Departamento</label>
-        <input type="text" id="departamento" name="departamento" required />
-      </div>
-      <div class="form-group">
-        <label for="ciudad">Ciudad</label>
-        <input type="text" id="ciudad" name="ciudad" required />
-      </div>
-      <button type="submit">Guardar</button>
-      <button type="button" id="cerrarModal">Cancelar</button>
-    </form>
-  </div>
+<div id="fondoModal"></div>
+<div id="modalEditar">
+  <h3>Editar Finca</h3>
+  <form id="formEditar" method="POST" action="updateFinca">
+    <div class="form-group">
+      <label for="codigo_finca">Código</label>
+      <input type="text" id="codigo_finca" name="codigo_finca" readonly />
+    </div>
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" required />
+    </div>
+    <div class="form-group">
+      <label for="codigo_propietario">Código Propietario</label>
+      <input type="text" id="codigo_propietario" name="codigo_propietario" readonly />
+    </div>
+    <div class="form-group">
+      <label for="codigo_capataz">Código Capataz</label>
+      <input type="text" id="codigo_capataz" name="codigo_capataz" readonly />
+    </div>
+    <div class="form-group">
+      <label for="codigo_vendedor">Código Vendedor</label>
+      <input type="text" id="codigo_vendedor" name="codigo_vendedor" readonly />
+    </div>
+    <div class="form-group">
+      <label for="siProduceLeche">¿Produce Leche?</label>
+      <select name="siProduceLeche" id="siProduceLeche" required>
+        <option value="1">Sí</option>
+        <option value="0">No</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="siProduceCereales">¿Produce Cereales?</label>
+      <select name="siProduceCereales" id="siProduceCereales" required>
+        <option value="1">Sí</option>
+        <option value="0">No</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="siProduceFrutas">¿Produce Frutas?</label>
+      <select name="siProduceFrutas" id="siProduceFrutas" required>
+        <option value="1">Sí</option>
+        <option value="0">No</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="siProduceVerduras">¿Produce Verduras?</label>
+      <select name="siProduceVerduras" id="siProduceVerduras" required>
+        <option value="1">Sí</option>
+        <option value="0">No</option>
+      </select>
+    </div>
+    <button type="submit">Guardar</button>
+    <button type="button" id="cerrarModal">Cancelar</button>
+  </form>
+</div>
   
 	<div id="modalVer" style="display:none; position:fixed; top:50%; left:50%; 
 	    transform: translate(-50%, -50%);
@@ -478,43 +554,78 @@
 	
 	  <button type="button" id="cerrarVerModal" style="margin-top: 15px; padding: 8px 15px; cursor:pointer;">Cerrar</button>
 	</div>
+	
+	<div id="modalSearch-finca" style="
+	    display: none;
+	    position: fixed; 
+	    top: 50%; left: 50%;
+	    transform: translate(-50%, -50%);
+	    background-color: white;
+	    padding: 20px;
+	    border-radius: 8px;
+	    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+	    width: 400px;
+	    max-height: 90vh;
+	    overflow-y: auto;
+	    z-index: 1000;">
+	    
+	  <h3>Detalles de la Finca</h3>
+	
+	  <div class="info-row"><strong>Código:</strong> <span id="verCodigo1"></span></div>
+	  <div class="info-row"><strong>Nombre:</strong> <span id="verNombre"></span></div>
+	  <div class="info-row"><strong>Propietario:</strong> <span id="verPropietario"></span></div>
+	  <div class="info-row"><strong>Capataz:</strong> <span id="verCapataz"></span></div>
+	  <div class="info-row"><strong>Vendedor:</strong> <span id="verVendedor"></span></div>
+	  <div class="info-row"><strong>País:</strong> <span id="verPais"></span></div>
+	  <div class="info-row"><strong>Departamento:</strong> <span id="verDepartamento"></span></div>
+	  <div class="info-row"><strong>Ciudad:</strong> <span id="verCiudad"></span></div>
+	  <div class="info-row"><strong>Metros Cuadrados:</strong> <span id="verMetros"></span></div>
+	  <div class="info-row"><strong>Hectáreas:</strong> <span id="verHectareas"></span></div>
+	  <div class="info-row"><strong>Produce Leche:</strong> <span id="verLeche"></span></div>
+	  <div class="info-row"><strong>Produce Cereales:</strong> <span id="verCereales"></span></div>
+	  <div class="info-row"><strong>Produce Frutas:</strong> <span id="verFrutas"></span></div>
+	  <div class="info-row"><strong>Produce Verduras:</strong> <span id="verVerduras"></span></div>
+	
+	  <button type="button" id="cerrarModalSearch-finca" style="margin-top: 15px; padding: 8px 15px; cursor:pointer;">Cerrar</button>
+	</div>
   
 </body>
 
-  <script>
-    const fondoModal = document.getElementById('fondoModal');
-    const modalEditar = document.getElementById('modalEditar');
-    const cerrarModalBtn = document.getElementById('cerrarModal');
-    const formEditar = document.getElementById('formEditar');
+<script>
+  const fondoModal = document.getElementById('fondoModal');
+  const modalEditar = document.getElementById('modalEditar');
+  const cerrarModalBtn = document.getElementById('cerrarModal');
+  const formEditar = document.getElementById('formEditar');
 
-    document.querySelectorAll('.edit-btn').forEach(button => {
-      button.addEventListener('click', () => {
-        // Abrir modal
-        fondoModal.style.display = 'block';
-        modalEditar.style.display = 'block';
+  document.querySelectorAll('.edit-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      // Abrir modal
+      fondoModal.style.display = 'block';
+      modalEditar.style.display = 'block';
 
-        // Llenar campos con los datos del botón
-        formEditar.codigo_finca.value = button.getAttribute('data-codigo');
-        formEditar.nombre.value = button.getAttribute('data-nombre');
-        formEditar.numHectareas.value = button.getAttribute('data-hectareas');
-        formEditar.metrosCuadrados.value = button.getAttribute('data-metros');
-        formEditar.pais.value = button.getAttribute('data-pais');
-        formEditar.departamento.value = button.getAttribute('data-departamento');
-        formEditar.ciudad.value = button.getAttribute('data-ciudad');
-      });
+      // Llenar campos con los datos del botón
+      formEditar.codigo_finca.value = button.getAttribute('data-codigo');
+      formEditar.nombre.value = button.getAttribute('data-nombre');
+      formEditar.codigo_propietario.value = button.getAttribute('data-propietario');
+      formEditar.codigo_capataz.value = button.getAttribute('data-capataz');
+      formEditar.codigo_vendedor.value = button.getAttribute('data-vendedor');
+      formEditar.siProduceLeche.value = button.getAttribute('data-leche');
+      formEditar.siProduceCereales.value = button.getAttribute('data-cereales');
+      formEditar.siProduceFrutas.value = button.getAttribute('data-frutas');
+      formEditar.siProduceVerduras.value = button.getAttribute('data-verduras');
     });
+  });
 
-    cerrarModalBtn.addEventListener('click', () => {
-      fondoModal.style.display = 'none';
-      modalEditar.style.display = 'none';
-    });
+  cerrarModalBtn.addEventListener('click', () => {
+    fondoModal.style.display = 'none';
+    modalEditar.style.display = 'none';
+  });
 
-    // Opcional: cerrar modal si clic fuera del modal
-    fondoModal.addEventListener('click', () => {
-      fondoModal.style.display = 'none';
-      modalEditar.style.display = 'none';
-    });
-  </script>
+  fondoModal.addEventListener('click', () => {
+    fondoModal.style.display = 'none';
+    modalEditar.style.display = 'none';
+  });
+</script>
 
 	<script>
 	  document.querySelectorAll('.view-btn').forEach(btn => {
@@ -544,5 +655,50 @@
 	    document.getElementById('fondoModal').style.display = 'none';
 	  });
 	</script>
-
+	
+	<script>
+	  function getParamsFromUrl() {
+	    const params = {};
+	    const queryString = window.location.search.substring(1);
+	    const pairs = queryString.split("&");
+	    for (let pair of pairs) {
+	      const [key, value] = pair.split("=");
+	      params[key] = decodeURIComponent(value || "");
+	    }
+	    return params;
+	  }
+	
+	  // Abre el modal y llena los campos
+	  function abrirModalDesdeUrl() {
+	    const params = getParamsFromUrl();
+	    if (!params.codigo_finca) return;
+	
+	    document.getElementById('verCodigo1').textContent = params.codigo_finca;
+	    document.getElementById('verNombre').textContent = params.nombre;
+	    document.getElementById('verPropietario').textContent = params.codigo_propietario;
+	    document.getElementById('verCapataz').textContent = params.codigo_capataz;
+	    document.getElementById('verVendedor').textContent = params.codigo_vendedor;
+	    document.getElementById('verPais').textContent = params.pais;
+	    document.getElementById('verDepartamento').textContent = params.departamento;
+	    document.getElementById('verCiudad').textContent = params.ciudad;
+	    document.getElementById('verMetros').textContent = params.metros;
+	    document.getElementById('verHectareas').textContent = params.hectareas;
+	    document.getElementById('verLeche').textContent = params.leche === "true" || params.leche === "1" ? "Sí" : "No";
+	    document.getElementById('verCereales').textContent = params.cereales === "true" || params.cereales === "1" ? "Sí" : "No";
+	    document.getElementById('verFrutas').textContent = params.frutas === "true" || params.frutas === "1" ? "Sí" : "No";
+	    document.getElementById('verVerduras').textContent = params.verduras === "true" || params.verduras === "1" ? "Sí" : "No";
+	
+	    document.getElementById('modalVer').style.display = 'block';
+	    document.getElementById('fondoModal').style.display = 'block';
+	  }
+	
+	  // Cerrar el modal
+	  document.getElementById('cerrarVerModal').addEventListener('click', () => {
+	    document.getElementById('modalVer').style.display = 'none';
+	    document.getElementById('fondoModal').style.display = 'none';
+	  });
+	
+	  // Ejecutar al cargar la página
+	  window.addEventListener('DOMContentLoaded', abrirModalDesdeUrl);
+	</script>
 </html>

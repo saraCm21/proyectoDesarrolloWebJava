@@ -138,15 +138,14 @@
     <aside class="sidebar">
       <h2>MENÚ</h2>
       <nav>
-        <a href="../../Views/principalFrames/homeFrame.jsp">🏡 Inicio</a>
-        <a href="../../Views/principalFrames/reportFinca.jsp">📄 Reporte</a>
+        <a href="Home.jsp">🏡 Inicio</a>
       </nav>
     </aside>
 
     <div class="main-content">
       <h1>Crear Finca</h1>
       <div class="form-box">
-        <form class="form" action="../../Controllers/createFincaController" method="POST">
+        <form class="form" action="registerFinca" method="POST">
           <label for="nombre">Nombre</label>
           <input type="text" id="nombre" name="nombre" placeholder="Nombre" />
           

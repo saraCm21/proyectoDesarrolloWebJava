@@ -6,7 +6,7 @@ public class Finca {
     private int idFinca;
     private String codigoFinca;
     private String nombre;
-    private int numHectareas;
+    private float numHectareas;
     private float metrosCuadrados;
     private int propietarioId;
     private int capatazId;
@@ -25,7 +25,7 @@ public class Finca {
     public Finca() {}
     
     // CONSTRUCTOR PARA EXTREAR Y MANEJAR UNA FINCA
-    public Finca(String codigoFinca, String nombre, int numHectareas, float metrosCuadrados,
+    public Finca(String codigoFinca, String nombre, float numHectareas, float metrosCuadrados,
             String codigo_propietario, String codigo_capataz, String codigo_vendedor, String pais, String departamento,
             String ciudad, boolean siProduceLeche, boolean siProduceCereales,
             boolean siProduceFrutas, boolean siProduceVerduras) {
@@ -45,7 +45,7 @@ public class Finca {
 	   this.siProduceVerduras = siProduceVerduras;
 	}
 
-    public Finca(String nombre, int numHectareas, float metrosCuadrados,
+    public Finca(String nombre, float numHectareas, float metrosCuadrados,
             String codigo_propietario, String codigo_capataz, String codigo_vendedor, String pais, String departamento,
             String ciudad, boolean siProduceLeche, boolean siProduceCereales,
             boolean siProduceFrutas, boolean siProduceVerduras) {
@@ -69,7 +69,7 @@ public class Finca {
 
     // ANTES DE PONER EL ID TOCA HACER LA BUSQUEDA DE ID DE CADA UNO Y PODER ASI CREAR EL OBJETO
     // CONTRUCTOR PARA CREAR UNA NUEVA FINCA
-    public Finca(String nombre, int numHectareas, float metrosCuadrados,
+    public Finca(String nombre, float numHectareas, float metrosCuadrados,
                  int propietarioId, int capatazId, int vendedorId, String pais, String departamento,
                  String ciudad, boolean siProduceLeche, boolean siProduceCereales,
                  boolean siProduceFrutas, boolean siProduceVerduras) {
@@ -108,7 +108,7 @@ public class Finca {
         this.nombre = nombre;
     }
 
-    public int getNumHectareas() {
+    public float getNumHectareas() {
         return numHectareas;
     }
 

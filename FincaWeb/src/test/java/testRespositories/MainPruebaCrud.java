@@ -137,5 +137,20 @@ public class MainPruebaCrud {
 		
 //		passwordService.changePassword(602913, "sara1234", "saracastellano2108@gmail.com");
 		
+		   Map<String, Object> datosActualizar = new HashMap<>();
+	        datosActualizar.put("propietario_id", 38);
+
+
+	        String codigoFinca = "948832";
+
+	        // Llamamos al método updateFinca y mostramos el resultado
+	        boolean actualizada = fincaRepository.updateFinca(codigoFinca, datosActualizar);
+
+	        if (actualizada) {
+	            System.out.println("✅ La finca fue actualizada correctamente.");
+	        } else {
+	            System.out.println("❌ No se pudo actualizar la finca.");
+	        }
+		
 	    }
 }

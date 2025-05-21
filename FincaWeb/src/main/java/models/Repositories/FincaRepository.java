@@ -51,7 +51,7 @@ public class FincaRepository {
 	        // Insertar finca
 	        stmtInsert.setString(1, codigoFinca);
 	        stmtInsert.setString(2, finca.getNombre());
-	        stmtInsert.setInt(3, finca.getNumHectareas());
+	        stmtInsert.setFloat(3, finca.getNumHectareas());
 	        stmtInsert.setFloat(4, finca.getMetrosCuadrados());
 	        stmtInsert.setInt(5, propietarioId);
 	        stmtInsert.setInt(6, capatazId);
@@ -74,7 +74,7 @@ public class FincaRepository {
 	    }
 	}
 
-	public boolean deleteFincaByCod(String codigo_Finca) {
+	public static boolean deleteFincaByCod(String codigo_Finca) {
 	    String sql = "DELETE FROM fincas WHERE codigo_Finca = ?";
 
 	    try (Connection conn = Connect.getInstance().getConexion();
@@ -107,15 +107,15 @@ public class FincaRepository {
 	        valores.add(data.get("nombre"));
 	    }
 	    if (data.containsKey("propietario_id")) {
-	        sql.append("propietarioId = ?, ");
+	        sql.append("propietario_id = ?, ");
 	        valores.add(data.get("propietario_id"));
 	    }
 	    if (data.containsKey("capataz_id")) {
-	        sql.append("capatazId = ?, ");
+	        sql.append("capataz_id = ?, ");
 	        valores.add(data.get("capataz_id"));
 	    }
 	    if (data.containsKey("vendedor_id")) {
-	        sql.append("vendedorId = ?, ");
+	    	sql.append("vendedor_id = ?, ");
 	        valores.add(data.get("vendedor_id"));
 	    }
 	    if (data.containsKey("siProduceLeche")) {
