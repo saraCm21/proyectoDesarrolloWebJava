@@ -1,5 +1,4 @@
-<%@page import="libs.Connect"%>
-<%@ page import="java.util.*, java.sql.*" %>
+<%@ page import="java.sql.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="es">
@@ -7,8 +6,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fincas</title>
-   <style>
-        * {
+  <style>
+    /* Aquí va todo tu CSS igual que en tu código original, lo omito para no repetir */
+            * {
           box-sizing: border-box;
           margin: 0;
           padding: 0;
@@ -290,8 +290,9 @@
 	    border-bottom: 1px solid #eee;
 	    padding-bottom: 4px;
 	  }
-    </style>
+  </style>
 </head>
+<body>
 <body>
   <div class="container">
     <aside class="sidebar">
@@ -326,325 +327,222 @@
             </tr>
           </thead>
           <tbody>
-        <%
-    Connection conn = null;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
+            <%
+              Connection conn = null;
+              PreparedStatement stmt = null;
+              ResultSet rs = null;
 
-    String URL = "jdbc:mysql://localhost:3306/aplicativo_web_bd?serverTimezone=UTC";
-    String USER = "root";
-    String PASSWORD = "";
+              String URL = "jdbc:mysql://localhost:3306/aplicativo_web_bd?serverTimezone=UTC";
+              String USER = "root";
+              String PASSWORD = "";
 
-    try {
-        // Cargar driver
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        // Crear conexión
-        conn = DriverManager.getConnection(URL, USER, PASSWORD);
+              try {
+                  Class.forName("com.mysql.cj.jdbc.Driver");
+                  conn = DriverManager.getConnection(URL, USER, PASSWORD);
 
-        String query = "SELECT f.*, " +
-                       "u1.codigo_usuario AS codigo_propietario, " +
-                       "u2.codigo_usuario AS codigo_capataz, " +
-                       "u3.codigo_usuario AS codigo_vendedor " +
-                       "FROM fincas f " +
-                       "LEFT JOIN usuarios u1 ON f.propietario_id = u1.id_usuario " +
-                       "LEFT JOIN usuarios u2 ON f.capataz_id = u2.id_usuario " +
-                       "LEFT JOIN usuarios u3 ON f.vendedor_id = u3.id_usuario";
+                  String query = "SELECT f.*, " +
+                          "u1.codigo_usuario AS codigo_propietario, " +
+                          "u2.codigo_usuario AS codigo_capataz, " +
+                          "u3.codigo_usuario AS codigo_vendedor " +
+                          "FROM fincas f " +
+                          "LEFT JOIN usuarios u1 ON f.propietario_id = u1.id_usuario " +
+                          "LEFT JOIN usuarios u2 ON f.capataz_id = u2.id_usuario " +
+                          "LEFT JOIN usuarios u3 ON f.vendedor_id = u3.id_usuario";
 
-        stmt = conn.prepareStatement(query);
-        rs = stmt.executeQuery();
+                  stmt = conn.prepareStatement(query);
+                  rs = stmt.executeQuery();
 
-        while(rs.next()) {
-%>
-          <tr>
-            <td><%= rs.getString("codigo_finca") %></td>
-            <td><%= rs.getString("nombre") %></td>
-            <td><%= rs.getString("numHectareas") %></td>
-            <td><%= rs.getString("metrosCuadrados") %></td>
-            <td><%= rs.getString("pais") %></td>
-            <td><%= rs.getString("departamento") %></td>
-            <td><%= rs.getString("ciudad") %></td>
-            <td>
-              <button type="button" class="edit-btn"
-                data-codigo="<%= rs.getString("codigo_finca") %>"
-                data-nombre="<%= rs.getString("nombre") %>"
-                data-propietario="<%= rs.getString("codigo_propietario") %>"
-                data-capataz="<%= rs.getString("codigo_capataz") %>"
-                data-vendedor="<%= rs.getString("codigo_vendedor") %>"
-                data-leche="<%= rs.getInt("siProduceLeche") %>"
-                data-cereales="<%= rs.getInt("siProduceCereales") %>"
-                data-frutas="<%= rs.getInt("siProduceFrutas") %>"
-                data-verduras="<%= rs.getInt("siProduceVerduras") %>">
-                Editar
-              </button>
-              <button type="button" class="view-btn"
-                data-codigo="<%= rs.getString("codigo_finca") %>"
-                data-nombre="<%= rs.getString("nombre") %>"
-                data-propietario="<%= rs.getString("codigo_propietario") %>"
-                data-capataz="<%= rs.getString("codigo_capataz") %>"
-                data-vendedor="<%= rs.getString("codigo_vendedor") %>"
-                data-pais="<%= rs.getString("pais") %>"
-                data-departamento="<%= rs.getString("departamento") %>"
-                data-ciudad="<%= rs.getString("ciudad") %>"
-                data-metros="<%= rs.getString("metrosCuadrados") %>"
-                data-hectareas="<%= rs.getString("numHectareas") %>"
-                data-leche="<%= rs.getInt("siProduceLeche") %>"
-                data-cereales="<%= rs.getInt("siProduceCereales") %>"
-                data-frutas="<%= rs.getInt("siProduceFrutas") %>"
-                data-verduras="<%= rs.getInt("siProduceVerduras") %>">
-                Ver
-              </button>
-              <form action="../../Controllers/deleteFincaController.jsp" method="POST" style="display:inline;">
-                <input type="hidden" name="codigo_finca" value="<%= rs.getString("codigo_finca") %>">
-                <button type="submit">Eliminar</button>
-              </form>
-            </td>
-          </tr>
-<%
-        }
-    } catch (Exception e) {
-        out.println("Error: " + e.getMessage());
-    } finally {
-        if (rs != null) try { rs.close(); } catch (Exception e) {}
-        if (stmt != null) try { stmt.close(); } catch (Exception e) {}
-        if (conn != null) try { conn.close(); } catch (Exception e) {}
-    }
-%>
+                  while(rs.next()) {
+            %>
+            <tr>
+              <td><%= rs.getString("codigo_finca") %></td>
+              <td><%= rs.getString("nombre") %></td>
+              <td><%= rs.getString("numHectareas") %></td>
+              <td><%= rs.getString("metrosCuadrados") %></td>
+              <td><%= rs.getString("pais") %></td>
+              <td><%= rs.getString("departamento") %></td>
+              <td><%= rs.getString("ciudad") %></td>
+              <td>
+                <!-- Botón Editar -->
+                <button type="button" class="edit-btn"
+                  data-codigo="<%= rs.getString("codigo_finca") %>"
+                  data-nombre="<%= rs.getString("nombre") %>"
+                  data-hectareas="<%= rs.getString("numHectareas") %>"
+                  data-metros="<%= rs.getString("metrosCuadrados") %>"
+                  data-pais="<%= rs.getString("pais") %>"
+                  data-departamento="<%= rs.getString("departamento") %>"
+                  data-ciudad="<%= rs.getString("ciudad") %>">
+                  Editar
+                </button>
+
+                <!-- Botón Ver -->
+                <button type="button" class="view-btn"
+	                data-codigo="<%= rs.getString("codigo_finca") %>"
+	                data-nombre="<%= rs.getString("nombre") %>"
+	                data-propietario="<%= rs.getString("codigo_propietario") %>"
+	                data-capataz="<%= rs.getString("codigo_capataz") %>"
+	                data-vendedor="<%= rs.getString("codigo_vendedor") %>"
+	                data-pais="<%= rs.getString("pais") %>"
+	                data-departamento="<%= rs.getString("departamento") %>"
+	                data-ciudad="<%= rs.getString("ciudad") %>"
+	                data-metros="<%= rs.getString("metrosCuadrados") %>"
+	                data-hectareas="<%= rs.getString("numHectareas") %>"
+	                data-leche="<%= rs.getInt("siProduceLeche") %>"
+	                data-cereales="<%= rs.getInt("siProduceCereales") %>"
+	                data-frutas="<%= rs.getInt("siProduceFrutas") %>"
+	                data-verduras="<%= rs.getInt("siProduceVerduras") %>">
+                  Ver
+                </button>
+
+                <!-- Botón Eliminar -->
+                <form action="../../Controllers/deleteFincaController.jsp" method="POST" style="display:inline;">
+                  <input type="hidden" name="codigo_finca" value="<%= rs.getString("codigo_finca") %>"/>
+                  <button type="submit" class="delete-btn" onclick="return confirm('¿Seguro que deseas eliminar esta finca?');">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+            <%
+                  }
+              } catch(Exception e) {
+                  out.println("<tr><td colspan='8'>Error: " + e.getMessage() + "</td></tr>");
+              } finally {
+                  if(rs != null) try { rs.close(); } catch(SQLException e) {}
+                  if(stmt != null) try { stmt.close(); } catch(SQLException e) {}
+                  if(conn != null) try { conn.close(); } catch(SQLException e) {}
+              }
+            %>
           </tbody>
         </table>
       </div>
     </main>
   </div>
-
-<!-- Modal oculto inicialmente -->
-<!-- Modal Editar -->
-<div id="modalEditar" style="
-  display: none;
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  width: 400px;
-  z-index: 1000;
-  max-height: 90vh;
-  overflow-y: auto;
-  font-family: Arial, sans-serif;
-">
-  <h3 style="margin-bottom: 20px; color: #333;">Editar Detalles de la Finca</h3>
-
-  <form id="formEditar">
-    <div class="form-group">
-      <label for="codigo">Código:</label>
-      <input type="text" id="codigo" name="codigo" readonly>
-    </div>
-
-    <div class="form-group">
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" name="nombre">
-    </div>
-
-    <div class="form-group">
-      <label for="propietario">Propietario:</label>
-      <input type="text" id="propietario" name="propietario">
-    </div>
-
-    <div class="form-group">
-      <label for="capataz">Capataz:</label>
-      <input type="text" id="capataz" name="capataz">
-    </div>
-
-    <div class="form-group">
-      <label for="vendedor">Vendedor:</label>
-      <input type="text" id="vendedor" name="vendedor">
-    </div>
-
-	<div class="form-group">
-	  <label for="leche">Leche:</label>
-	  <select id="leche" name="leche">
-	    <option value="1">Sí</option>
-	    <option value="0">No</option>
-	  </select>
-	</div>
+  
+ <!-- Modal Editar -->
+  <div id="fondoModal"></div>
+  <div id="modalEditar">
+    <h3>Editar Finca</h3>
+    <form id="formEditar" method="POST" action="updateFincaController.jsp">
+      <div class="form-group">
+        <label for="codigo_finca">Código</label>
+        <input type="text" id="codigo_finca" name="codigo_finca" readonly />
+      </div>
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" required />
+      </div>
+      <div class="form-group">
+        <label for="numHectareas">Hectáreas</label>
+        <input type="number" id="numHectareas" name="numHectareas" required />
+      </div>
+      <div class="form-group">
+        <label for="metrosCuadrados">Metros Cuadrados</label>
+        <input type="number" id="metrosCuadrados" name="metrosCuadrados" required />
+      </div>
+      <div class="form-group">
+        <label for="pais">País</label>
+        <input type="text" id="pais" name="pais" required />
+      </div>
+      <div class="form-group">
+        <label for="departamento">Departamento</label>
+        <input type="text" id="departamento" name="departamento" required />
+      </div>
+      <div class="form-group">
+        <label for="ciudad">Ciudad</label>
+        <input type="text" id="ciudad" name="ciudad" required />
+      </div>
+      <button type="submit">Guardar</button>
+      <button type="button" id="cerrarModal">Cancelar</button>
+    </form>
+  </div>
+  
+	<div id="modalVer" style="display:none; position:fixed; top:50%; left:50%; 
+	    transform: translate(-50%, -50%);
+	    background-color: white; padding: 20px; border-radius: 8px; 
+	    box-shadow: 0 2px 10px rgba(0,0,0,0.3); width: 400px; z-index: 1000; 
+	    max-height: 90vh; overflow-y: auto;">
+	  <h3>Detalles de la Finca</h3>
+	  <div class="info-row"><strong>Código:</strong> <span id="verCodigo"></span></div>
+	  <div class="info-row"><strong>Nombre:</strong> <span id="verNombre"></span></div>
+	  <div class="info-row"><strong>Propietario:</strong> <span id="verPropietario"></span></div>
+	  <div class="info-row"><strong>Capataz:</strong> <span id="verCapataz"></span></div>
+	  <div class="info-row"><strong>Vendedor:</strong> <span id="verVendedor"></span></div>
+	  <div class="info-row"><strong>País:</strong> <span id="verPais"></span></div>
+	  <div class="info-row"><strong>Departamento:</strong> <span id="verDepartamento"></span></div>
+	  <div class="info-row"><strong>Ciudad:</strong> <span id="verCiudad"></span></div>
+	  <div class="info-row"><strong>Metros Cuadrados:</strong> <span id="verMetros"></span></div>
+	  <div class="info-row"><strong>Hectáreas:</strong> <span id="verHectareas"></span></div>
+	  <div class="info-row"><strong>Produce Leche:</strong> <span id="verLeche"></span></div>
+	  <div class="info-row"><strong>Produce Cereales:</strong> <span id="verCereales"></span></div>
+	  <div class="info-row"><strong>Produce Frutas:</strong> <span id="verFrutas"></span></div>
+	  <div class="info-row"><strong>Produce Verduras:</strong> <span id="verVerduras"></span></div>
 	
-	<div class="form-group">
-	  <label for="cereales">Cereales:</label>
-	  <select id="cereales" name="cereales">
-	    <option value="1">Sí</option>
-	    <option value="0">No</option>
-	  </select>
+	  <button type="button" id="cerrarVerModal" style="margin-top: 15px; padding: 8px 15px; cursor:pointer;">Cerrar</button>
 	</div>
-	
-	<div class="form-group">
-	  <label for="frutas">Frutas:</label>
-	  <select id="frutas" name="frutas">
-	    <option value="1">Sí</option>
-	    <option value="0">No</option>
-	  </select>
-	</div>
-	
-	<div class="form-group">
-	  <label for="verduras">Verduras:</label>
-	  <select id="verduras" name="verduras">
-	    <option value="1">Sí</option>
-	    <option value="0">No</option>
-	  </select>
-	</div>
-
-    <div style="text-align: right; margin-top: 20px;">
-      <button type="submit" style="padding: 8px 15px; background: #4caf50; color: white; border: none; border-radius: 6px; cursor: pointer;">Guardar</button>
-      <button type="button" id="cerrarModal" style="padding: 8px 15px; background: #ccc; border: none; border-radius: 6px; cursor: pointer; margin-left: 10px;">Cancelar</button>
-    </div>
-  </form>
-</div>
-
-<!-- Fondo oscuro -->
-<div id="fondoModal" style="
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 999;
-"></div>
-
-<div id="modalVer" style="display:none; position:fixed; top:50%; left:50%; 
-    transform: translate(-50%, -50%);
-    background-color: white; padding: 20px; border-radius: 8px; 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3); width: 400px; z-index: 1000; 
-    max-height: 90vh; overflow-y: auto;">
-  <h3>Detalles de la Finca</h3>
-  <div class="info-row"><strong>Código:</strong> <span id="verCodigo"></span></div>
-  <div class="info-row"><strong>Nombre:</strong> <span id="verNombre"></span></div>
-  <div class="info-row"><strong>Propietario:</strong> <span id="verPropietario"></span></div>
-  <div class="info-row"><strong>Capataz:</strong> <span id="verCapataz"></span></div>
-  <div class="info-row"><strong>Vendedor:</strong> <span id="verVendedor"></span></div>
-  <div class="info-row"><strong>País:</strong> <span id="verPais"></span></div>
-  <div class="info-row"><strong>Departamento:</strong> <span id="verDepartamento"></span></div>
-  <div class="info-row"><strong>Ciudad:</strong> <span id="verCiudad"></span></div>
-  <div class="info-row"><strong>Metros Cuadrados:</strong> <span id="verMetros"></span></div>
-  <div class="info-row"><strong>Hectáreas:</strong> <span id="verHectareas"></span></div>
-  <div class="info-row"><strong>Produce Leche:</strong> <span id="verLeche"></span></div>
-  <div class="info-row"><strong>Produce Cereales:</strong> <span id="verCereales"></span></div>
-  <div class="info-row"><strong>Produce Frutas:</strong> <span id="verFrutas"></span></div>
-  <div class="info-row"><strong>Produce Verduras:</strong> <span id="verVerduras"></span></div>
-
-  <button type="button" id="cerrarVerModal" style="margin-top: 15px; padding: 8px 15px; cursor:pointer;">Cerrar</button>
-</div>
-
-<!-- Fondo oscuro compartido -->
-<div id="fondoModal" style="display:none; position:fixed; top:0; left:0; 
-    width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index:999;"></div>
-
+  
 </body>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const modal = document.getElementById("modalEditar");
-    const fondo = document.getElementById("fondoModal");
-    const form = document.getElementById("formEditar");
+  <script>
+    const fondoModal = document.getElementById('fondoModal');
+    const modalEditar = document.getElementById('modalEditar');
+    const cerrarModalBtn = document.getElementById('cerrarModal');
+    const formEditar = document.getElementById('formEditar');
 
-    function mostrarModal(datos) {
-      // Rellenar inputs con los datos del botón
-      form.codigo.value = datos.codigo;
-      form.nombre.value = datos.nombre;
-      form.propietario.value = datos.propietario;
-      form.capataz.value = datos.capataz;
-      form.vendedor.value = datos.vendedor;
-      form.leche.value = datos.leche;
-      form.cereales.value = datos.cereales;
-      form.frutas.value = datos.frutas;
-      form.verduras.value = datos.verduras;
+    document.querySelectorAll('.edit-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        // Abrir modal
+        fondoModal.style.display = 'block';
+        modalEditar.style.display = 'block';
 
-      modal.style.display = "block";
-      fondo.style.display = "block";
-    }
-
-    document.querySelectorAll(".edit-btn").forEach(function(btn) {
-      btn.addEventListener("click", function() {
-        const datos = {
-          codigo: this.getAttribute("data-codigo"),
-          nombre: this.getAttribute("data-nombre"),
-          propietario: this.getAttribute("data-propietario"),
-          capataz: this.getAttribute("data-capataz"),
-          vendedor: this.getAttribute("data-vendedor"),
-          leche: this.getAttribute("data-leche"),
-          cereales: this.getAttribute("data-cereales"),
-          frutas: this.getAttribute("data-frutas"),
-          verduras: this.getAttribute("data-verduras")
-        };
-        mostrarModal(datos);
+        // Llenar campos con los datos del botón
+        formEditar.codigo_finca.value = button.getAttribute('data-codigo');
+        formEditar.nombre.value = button.getAttribute('data-nombre');
+        formEditar.numHectareas.value = button.getAttribute('data-hectareas');
+        formEditar.metrosCuadrados.value = button.getAttribute('data-metros');
+        formEditar.pais.value = button.getAttribute('data-pais');
+        formEditar.departamento.value = button.getAttribute('data-departamento');
+        formEditar.ciudad.value = button.getAttribute('data-ciudad');
       });
     });
 
-    // Botón cerrar (Cancelar)
-    document.getElementById("cerrarModal").addEventListener("click", function() {
-      modal.style.display = "none";
-      fondo.style.display = "none";
+    cerrarModalBtn.addEventListener('click', () => {
+      fondoModal.style.display = 'none';
+      modalEditar.style.display = 'none';
     });
 
-    fondo.addEventListener("click", function() {
-      modal.style.display = "none";
-      fondo.style.display = "none";
+    // Opcional: cerrar modal si clic fuera del modal
+    fondoModal.addEventListener('click', () => {
+      fondoModal.style.display = 'none';
+      modalEditar.style.display = 'none';
     });
+  </script>
 
-    // Aquí podrías manejar el submit para guardar cambios
-    form.addEventListener("submit", function(e) {
-      e.preventDefault(); // Evita recargar la página
-
-      // Obtener los valores editados
-      const datosEditados = {
-        codigo: form.codigo.value,
-        nombre: form.nombre.value,
-        propietario: form.propietario.value,
-        capataz: form.capataz.value,
-        vendedor: form.vendedor.value,
-        leche: form.leche.value,
-        cereales: form.cereales.value,
-        frutas: form.frutas.value,
-        verduras: form.verduras.value
-      };
-
-      console.log("Datos para enviar al servidor:", datosEditados);
-
-      // Aquí llamas a tu función para enviar datos con AJAX o form.submit() si usas otro método
-
-      // Por ahora cerramos modal:
-      modal.style.display = "none";
-      fondo.style.display = "none";
-    });
-  });
-</script>
-
-<script>
-  document.querySelectorAll('.view-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.getElementById('verCodigo').textContent = btn.dataset.codigo;
-      document.getElementById('verNombre').textContent = btn.dataset.nombre;
-      document.getElementById('verPropietario').textContent = btn.dataset.propietario;
-      document.getElementById('verCapataz').textContent = btn.dataset.capataz;
-      document.getElementById('verVendedor').textContent = btn.dataset.vendedor;
-      document.getElementById('verPais').textContent = btn.dataset.pais;
-      document.getElementById('verDepartamento').textContent = btn.dataset.departamento;
-      document.getElementById('verCiudad').textContent = btn.dataset.ciudad;
-      document.getElementById('verMetros').textContent = btn.dataset.metros;
-      document.getElementById('verHectareas').textContent = btn.dataset.hectareas;
-      document.getElementById('verLeche').textContent = btn.dataset.leche == "1" ? "Sí" : "No";
-      document.getElementById('verCereales').textContent = btn.dataset.cereales == "1" ? "Sí" : "No";
-      document.getElementById('verFrutas').textContent = btn.dataset.frutas == "1" ? "Sí" : "No";
-      document.getElementById('verVerduras').textContent = btn.dataset.verduras == "1" ? "Sí" : "No";
-
-      document.getElementById('modalVer').style.display = 'block';
-      document.getElementById('fondoModal').style.display = 'block';
-    });
-  });
-
-  document.getElementById('cerrarVerModal').addEventListener('click', () => {
-    document.getElementById('modalVer').style.display = 'none';
-    document.getElementById('fondoModal').style.display = 'none';
-  });
-</script>
+	<script>
+	  document.querySelectorAll('.view-btn').forEach(btn => {
+	    btn.addEventListener('click', () => {
+	      document.getElementById('verCodigo').textContent = btn.dataset.codigo;
+	      document.getElementById('verNombre').textContent = btn.dataset.nombre;
+	      document.getElementById('verPropietario').textContent = btn.dataset.propietario;
+	      document.getElementById('verCapataz').textContent = btn.dataset.capataz;
+	      document.getElementById('verVendedor').textContent = btn.dataset.vendedor;
+	      document.getElementById('verPais').textContent = btn.dataset.pais;
+	      document.getElementById('verDepartamento').textContent = btn.dataset.departamento;
+	      document.getElementById('verCiudad').textContent = btn.dataset.ciudad;
+	      document.getElementById('verMetros').textContent = btn.dataset.metros;
+	      document.getElementById('verHectareas').textContent = btn.dataset.hectareas;
+	      document.getElementById('verLeche').textContent = btn.dataset.leche == "1" ? "Sí" : "No";
+	      document.getElementById('verCereales').textContent = btn.dataset.cereales == "1" ? "Sí" : "No";
+	      document.getElementById('verFrutas').textContent = btn.dataset.frutas == "1" ? "Sí" : "No";
+	      document.getElementById('verVerduras').textContent = btn.dataset.verduras == "1" ? "Sí" : "No";
+	
+	      document.getElementById('modalVer').style.display = 'block';
+	      document.getElementById('fondoModal').style.display = 'block';
+	    });
+	  });
+	
+	  document.getElementById('cerrarVerModal').addEventListener('click', () => {
+	    document.getElementById('modalVer').style.display = 'none';
+	    document.getElementById('fondoModal').style.display = 'none';
+	  });
+	</script>
 
 </html>
