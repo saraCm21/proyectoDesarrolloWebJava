@@ -5,8 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create Account</title>
-  <!-- Si prefieres archivo CSS externo, descomenta esta línea y pon el archivo en /css/signUpStyled.css -->
-  <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/signUpStyled.css" /> -->
 
   <style>
     * {
@@ -132,7 +130,7 @@
 
     <div class="form-box">
       <h2>Create Account</h2>
-      <form action="${pageContext.request.contextPath}/Controllers/signUpController" method="POST">
+      <form action="signup" method="POST">
         <div class="input-group">
           <input type="email" name="email" placeholder="Email" required />
           <span class="icon">📧</span>

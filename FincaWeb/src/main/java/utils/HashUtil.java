@@ -1,29 +1,16 @@
 package utils;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class HashUtil {
-    public static String hashPassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hashedBytes = md.digest(password.getBytes());
-
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hashedBytes) {
-                sb.append(String.format("%02x", b));
-            }
-            return sb.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error al hashear la contraseña", e);
-        }
+	private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    public static  String hashPassword(String password) {
+    	return encoder.encode(password);
     }
 
-    public static boolean verificarPassword(String input, String hashed) {
-        return BCrypt.checkpw(input, hashed);
+    public static boolean verificarPassword(String passwordPlano, String hashGuardado) {
+        return encoder.matches(passwordPlano, hashGuardado);
     }
    
 }

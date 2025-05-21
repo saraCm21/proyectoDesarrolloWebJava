@@ -115,7 +115,7 @@
 
   <div class="container">
     <h2>Cambiar Contraseña</h2>
-    <form action="../../Controllers/changePasswordController.php" method="POST">
+    <form action="changePassword" method="POST">
       <input type="hidden" name="action" value="changePassword">
 
       <label for="email">Email</label>

@@ -125,7 +125,7 @@
         <input type="password" name="password" placeholder="Password" required />
         <a href="#" class="forgot" id="forgot-password">Forgot your password?</a>
         <button type="submit">Login</button>
-        <button type="button" class="signup" onclick="window.location.href='signUpFrame.html';">SignUp</button>
+        <button type="button" class="signup" onclick="window.location.href='SignUp.jsp';">SignUp</button>
       </form>
 
       <%-- Mostrar mensaje de error si viene con ?error=login_failed --%>
@@ -141,13 +141,18 @@
     <div class="right-shape"></div>
   </div>
 
-  <div id="forgot-password-dialog">
-    <h3>Recover Password</h3>
-    <input type="email" id="email-input" placeholder="Enter Email" required
-           style="display: block; margin-bottom: 10px; width: 95%; padding: 5px; border: 1px solid #ccccccec;" />
-    <button id="submit-email" style="padding: 5px 10px; margin-right: 10px; background-color: #3366ff">Accept</button>
-    <button id="cancel-dialog" style="padding: 5px 10px; background-color: #3366ff">Cancel</button>
-  </div>
+	<div id="forgot-password-dialog">
+	  <h3>Recover Password</h3>
+	  <form action="sendEmail" method="POST">
+	    <input type="email" id="email-input" name="email" placeholder="Enter Email" required
+	           style="display: block; margin-bottom: 10px; width: 95%; padding: 5px; border: 1px solid #ccc;" />
+	    <button id="submit-email" type="submit" 
+	            style="padding: 5px 10px; margin-right: 10px; background-color: #3366ff; color: white;">Accept</button>
+	    <button id="cancel-dialog" type="button" 
+	            style="padding: 5px 10px; background-color: #3366ff; color: white;">Cancel</button>
+	  </form>
+	</div>
+  
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);

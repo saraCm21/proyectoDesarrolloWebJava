@@ -41,5 +41,9 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="D:/Documentos D/apache-tomcat-9.0.95/lib/mysql-connector-j-8.1.0.jar"/>
+	<classpathentry kind="lib" path="D:/Documentos D/apache-tomcat-9.0.95/lib/spring-security-crypto-5.7.11.jar"/>
+	<classpathentry kind="lib" path="D:/Documentos D/apache-tomcat-9.0.95/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="D:/Documentos D/apache-tomcat-9.0.95/lib/jakarta.mail-2.0.1.jar"/>
+	<classpathentry kind="lib" path="D:/Documentos D/apache-tomcat-9.0.95/lib/jakarta.activation-2.0.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -115,15 +115,7 @@ public class UsuarioRepository {
 	        ResultSet rs = stmt.executeQuery();
 
 	        if (rs.next()) {
-	            return new Usuario(
-	            	rs.getInt("id_usuario"),
-	                rs.getString("codigo_usuario"),
-	                rs.getString("username"),
-	                rs.getString("password"),
-	                rs.getString("nombre"),
-	                rs.getString("email"),
-	                rs.getString("rol")
-	            );
+	            return new Usuario(rs.getInt("id_usuario"), rs.getString("codigo_usuario"), rs.getString("username"), rs.getString("password"), rs.getString("nombre"), rs.getString("email"), rs.getString("rol"), rs.getInt("cod_recuperacion"), rs.getTimestamp("time_limit") != null ? rs.getTimestamp("time_limit").toLocalDateTime() : null);
 	            
 		        
 	        } else {
@@ -150,15 +142,8 @@ public class UsuarioRepository {
 	        ResultSet rs = stmt.executeQuery();
 
 	        if (rs.next()) {
-	            return new Usuario(
-	                rs.getInt("id_usuario"),
-	                rs.getString("codigo_usuario"),
-	                rs.getString("username"),
-	                rs.getString("password"),
-	                rs.getString("nombre"),
-	                rs.getString("email"),
-	                rs.getString("rol")
-	            );
+	            return new Usuario(rs.getInt("id_usuario"), rs.getString("codigo_usuario"), rs.getString("username"), rs.getString("password"), rs.getString("nombre"), rs.getString("email"), rs.getString("rol"), rs.getInt("cod_recuperacion"), rs.getTimestamp("time_limit") != null ? rs.getTimestamp("time_limit").toLocalDateTime() : null);
+	            
 	        }
 
 	    } catch (SQLException e) {

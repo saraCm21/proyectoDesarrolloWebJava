@@ -7,6 +7,7 @@ import models.Entities.Finca;
 import models.Entities.Usuario;
 import models.Repositories.FincaRepository;
 import models.Repositories.UsuarioRepository;
+import models.Servicies.ChangePasswordService;
 import models.Servicies.CreateFincaService;
 import models.Servicies.LoginService;
 import models.Servicies.SendEmailService;
@@ -21,6 +22,8 @@ public class MainPruebaCrud {
 		SignUpService signUpService = new SignUpService();
 		CreateFincaService createFincaService = new CreateFincaService();
 		SendEmailService sendEmailService = new SendEmailService();
+		ChangePasswordService passwordService = new ChangePasswordService();
+		
 /*
 	Usuario user = new Usuario("Miri", "sara1234", "Mirian", "saracastellano2108@gmail.com", "vendedor");
 	
@@ -127,9 +130,12 @@ public class MainPruebaCrud {
         
         Finca finca = new Finca(nombre, numHectareas, metrosCuadrados, codigoPropietario, codigoCapataz, codigoVendedor, pais, departamento, ciudad, siProduceLeche, siProduceCereales, siProduceFrutas, siProduceVerduras);
         System.out.println(createFincaService.create(finca));
- */
-		sendEmailService.sendEmail("saracastellano2108@gmail.com");
+ 
+		sendEmailService.sendEmail("saracastellano2108@gmail.com");*/
 		
+//		sendEmailService.sendEmail("saracastellano2108@gmail.com"); 
+		
+//		passwordService.changePassword(602913, "sara1234", "saracastellano2108@gmail.com");
 		
 	    }
 }
